@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Topologies without atomi radii &#8212; Pytim 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/pytim.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ITIM" href="ITIM.html" />
+    <link rel="prev" title="Pytim: Quick Tour" href="quick.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ITIM.html" title="ITIM"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quick.html" title="Pytim: Quick Tour"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="topologies-without-atomi-radii">
+<h1>Topologies without atomi radii<a class="headerlink" href="#topologies-without-atomi-radii" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>if one starts from a configuration/trajectory for which
+the atom types are not known, there are two main ways of
+feeding the relevant information to the interface constructor.</p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>The problem</strong></dt>
+<dd><p class="first">Configuration file formats such as the gromos one do not bear <em>atomtype</em> nor <em>atomic radius</em> information, and <em>atomic radii</em> are needed to run an ITIM/GITIM analysis.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="k">as</span> <span class="nn">mda</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pytim</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytim.datafiles</span> <span class="k">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>the atom types will be assigned by MDAnalysis to be the first letter in the
+atom name:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span>
+<span class="go">[&#39;M&#39; &#39;O&#39; &#39;H&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">names</span>
+<span class="go">[&#39;Me1&#39; &#39;O2&#39; &#39;H3&#39;]</span>
+</pre></div>
+</div>
+<p>As no information on the atom radii is carried by the gromos format, of course we have</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">radii</span>
+<span class="go">[None None None]</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>Case 1</strong></dt>
+<dd>We know exactly what the atomic radii should be.</dd>
+<dt><strong>Solution</strong></dt>
+<dd><p class="first">build a dictionary of radii corresponding to the first letter
+of the atom name</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mydict</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">mydict</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>Case 2</strong></dt>
+<dd>we don&#8217;t know exactly the atomic radii.</dd>
+<dt><strong>Solution</strong></dt>
+<dd><p class="first">Use an existing topology, and overwrite the types guessed by MDAnalysis</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load the radii</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radii_gromos</span> <span class="o">=</span> <span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># check which types are available</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">radii_gromos</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;CU1+&#39;, &#39;CDmso&#39;, &#39;OWT3&#39;, &#39;CA2+&#39;, &#39;FE&#39;, &#39;BR&#39;, &#39;MG2+&#39;, &#39;HC&#39;, &#39;OWT4&#39;, &#39;CL-&#39;, &#39;NL&#39;, &#39;CCl4&#39;, &#39;CLCl4&#39;, &#39;CL&#39;, &#39;NE&#39;, &#39;SDmso&#39;, &#39;CH1&#39;, &#39;NZ&#39;, &#39;CH3&#39;, &#39;CH4&#39;, &#39;ODmso&#39;, &#39;NR&#39;, &#39;NT&#39;, &#39;C&#39;, &#39;HChl&#39;, &#39;DUM&#39;, &#39;F&#39;, &#39;H&#39;, &#39;CChl&#39;, &#39;CMet&#39;, &#39;CLChl&#39;, &#39;O&#39;, &#39;N&#39;, &#39;MW&#39;, &#39;P&#39;, &#39;S&#39;, &#39;AR&#39;, &#39;IW&#39;, &#39;CU2+&#39;, &#39;OM&#39;, &#39;CR1&#39;, &#39;MNH3&#39;, &#39;NA+&#39;, &#39;OA&#39;, &#39;SI&#39;, &#39;CH2&#39;, &#39;OW&#39;, &#39;ZN2+&#39;, &#39;OMet&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Overwrite the types</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="o">==</span><span class="s1">&#39;M&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;CMet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="o">==</span><span class="s1">&#39;O&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;OMet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute the interface</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="more-in-detail">
+<h2>More in detail<a class="headerlink" href="#more-in-detail" title="Permalink to this headline">¶</a></h2>
+<p>If we do not specify any external dictionary for the radii,
+the default one is that of MDAnalysis, which can be accessed by
+pytim.tables.vdwradii:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">pytim</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">vdwradii</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;C&#39;, &#39;F&#39;, &#39;H&#39;, &#39;O&#39;, &#39;N&#39;, &#39;P&#39;, &#39;S&#39;]</span>
+</pre></div>
+</div>
+<p>Only few atom types have a radius associated to them...</p>
+<p>If we try to run the interfacial analysis we
+get the following warning</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="go">!!                              WARNING</span>
+<span class="go">!! No appropriate radius was found for the atomtype M</span>
+<span class="go">!! Using the average radius (1.20714285714) as a fallback option...</span>
+<span class="go">!! Pass a dictionary of radii (in Angstrom) with the option radii_dict</span>
+<span class="go">!! for example: r={&#39;M&#39;:1.2,...} ; inter=pytim.ITIM(u,radii_dict=r)</span>
+</pre></div>
+</div>
+<p>Another possible option is to extend the default dictionary of radii, for example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytim</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">]</span><span class="o">=</span><span class="mf">1.6</span>
+</pre></div>
+</div>
+<p>now the warning is not issued anymore:
+&gt;&gt;&gt; interface = pytim.ITIM(u,cluster_cut=5.0)</p>
+<p>Of course, one can provide the radii explicitly:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>... or use one of the provided forcefields:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">pytim_data</span><span class="o">.</span><span class="n">topol</span>
+<span class="go">[&#39;G43A1_TOP&#39;]</span>
+</pre></div>
+</div>
+<p>We can extract the radii for the GROMOS 43A1 topology , like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">radii_gromos</span><span class="o">=</span><span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The atom types supplied are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">radii_gromos</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;CU1+&#39;, &#39;CDmso&#39;, &#39;OWT3&#39;, &#39;CA2+&#39;, &#39;FE&#39;, &#39;BR&#39;, &#39;MG2+&#39;, &#39;HC&#39;, &#39;OWT4&#39;, &#39;CL-&#39;, &#39;NL&#39;, &#39;CCl4&#39;, &#39;CLCl4&#39;, &#39;CL&#39;, &#39;NE&#39;, &#39;SDmso&#39;, &#39;CH1&#39;, &#39;NZ&#39;, &#39;CH3&#39;, &#39;CH4&#39;, &#39;ODmso&#39;, &#39;NR&#39;, &#39;NT&#39;, &#39;C&#39;, &#39;HChl&#39;, &#39;DUM&#39;, &#39;F&#39;, &#39;H&#39;, &#39;CChl&#39;, &#39;CMet&#39;, &#39;CLChl&#39;, &#39;O&#39;, &#39;N&#39;, &#39;MW&#39;, &#39;P&#39;, &#39;S&#39;, &#39;AR&#39;, &#39;IW&#39;, &#39;CU2+&#39;, &#39;OM&#39;, &#39;CR1&#39;, &#39;MNH3&#39;, &#39;NA+&#39;, &#39;OA&#39;, &#39;SI&#39;, &#39;CH2&#39;, &#39;OW&#39;, &#39;ZN2+&#39;, &#39;OMet&#39;]</span>
+</pre></div>
+</div>
+<p>these do not correspond exactly to ours, unless we
+had set the atom names in the .gro file to be those
+of the corresponding atom types.</p>
+<p><strong>However</strong>, the automatic selection will anyway make a choice:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">radii</span>
+<span class="go">[ 1.31292702  1.31292702  0.        ]</span>
+</pre></div>
+</div>
+<p>If one wonder to which atom types this set of radii corresponds, it is possible to figure it out:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reverse</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">radii_gromos</span><span class="o">.</span><span class="n">iteritems</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">[</span><span class="n">reverse</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">radii</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<span class="go">[&#39;OM&#39;, &#39;OM&#39;, &#39;MNH3&#39;]</span>
+</pre></div>
+</div>
+<p>Not really what we wanted. So, once one has a topology at hand, it is best to map the atomtypes
+to those of the topology, like</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">myradii</span><span class="o">=</span><span class="nb">dict</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myradii</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">[</span><span class="s1">&#39;CMet&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myradii</span><span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">[</span><span class="s1">&#39;OMet&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myradii</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Let&#8217;s see what we&#8217;ve got:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">myradii</span>
+<span class="go">{&#39;H&#39;: 0.0, &#39;M&#39;: 1.8230510193786977, &#39;O&#39;: 1.4774209166212664}</span>
+</pre></div>
+</div>
+<p>Better. Now we can feed them to the interface constructor:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">myradii</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An equivalent result can be obtained faster, by overwriting the types:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="o">==</span><span class="s1">&#39;M&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;CMet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="o">==</span><span class="s1">&#39;O&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;OMet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">()</span>
+<span class="go">[[&lt;AtomGroup with 855 atoms&gt;], [&lt;AtomGroup with 885 atoms&gt;]]</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92682414-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+<h3><a href="index.html">Table Of Contents</a></h3>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quick.html">Pytim: Quick Tour</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Topologies without atomi radii</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-in-detail">More in detail</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ITIM.html">ITIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GITIM.html">GITIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datafiles.html">Datafiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quick.html"
+                        title="previous chapter">Pytim: Quick Tour</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ITIM.html"
+                        title="next chapter">ITIM</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/guessing_radii.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ITIM.html" title="ITIM"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quick.html" title="Pytim: Quick Tour"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Marcello Sega.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+    </div>
+  </body>
+</html>
