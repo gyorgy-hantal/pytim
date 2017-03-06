@@ -175,7 +175,7 @@ The syntax of the layer selection follows that of slicing in python:</p>
 
 <dl class="method">
 <dt id="pytim.itim.ITIM.writepdb">
-<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered=True</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.writepdb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='origin'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.writepdb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the frame to a pdb file, marking the atoms belonging
 to the layers with different beta factor.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -184,6 +184,7 @@ to the layers with different beta factor.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>filename</strong> &#8211; string  &#8211; the output file name</li>
+<li><strong>origin</strong> &#8211; string  &#8211; &#8216;origin&#8217;, &#8216;middle&#8217;, or &#8216;no&#8217;</li>
 <li><strong>multiframe</strong> &#8211; boolean &#8211; append to pdb file if True</li>
 </ul>
 </td>
@@ -196,10 +197,11 @@ to the layers with different beta factor.</p>
 </div>
 <dl class="docutils">
 <dt>Example: save the positions without centering the interface. This will</dt>
-<dd>leave the atoms in the original position with respect to the cell.
+<dd>not shift the atoms from the original position (still, they will 
+be put into the basic cell).
 The :multiframe: option set to :False: will overwrite the file.</dd>
 </dl>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;layers.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;layers.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -238,6 +240,8 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quick.html">Pytim: Quick Tour</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to Install Pytim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="center.html">To center or not to center?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guessing_radii.html">Topologies without atomi radii</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Modules</span></p>
