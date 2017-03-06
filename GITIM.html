@@ -92,7 +92,6 @@ If None is supplied, the default one (from GROMOS 43a1) will be used.</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span><span class="o">=</span><span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span><span class="n">pytim</span><span class="o">.</span><span class="n">GITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">itim_group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">symmetry</span><span class="o">=</span><span class="s1">&#39;spherical&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">assign_layers</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;gitim.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">layer</span>
@@ -100,22 +99,16 @@ If None is supplied, the default one (from GROMOS 43a1) will be used.</li>
 </pre></div>
 </div>
 <dl class="method">
-<dt id="pytim.gitim.GITIM.assign_layers">
-<code class="descname">assign_layers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM.assign_layers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine the GITIM layers.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="pytim.gitim.GITIM.center">
 <code class="descname">center</code><span class="sig-paren">(</span><em>group</em>, <em>direction=None</em>, <em>halfbox_shift=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM.center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Centers the liquid slab in the simulation box.</p>
 <p>The algorithm tries to avoid problems with the definition
 of the center of mass. First, a rough density profile
-(10 bins) is computed. Then, the support group is shifted
+(10 bins) is computed. Then, the group is shifted
 and reboxed until the bins at the box boundaries have a
 density lower than a threshold delta</p>
-<p>In ITIM, the system along the normal direction is always 
-centered at 0 (halfbox_shift==True). To center to the middle 
+<p>In ITIM, the system along the normal direction is always
+centered at 0 (halfbox_shift==True). To center to the middle
 of the box along all directions, set halfbox_shift=False</p>
 </dd></dl>
 
@@ -132,6 +125,12 @@ of the box along all directions, set halfbox_shift=False</p>
 </tbody>
 </table>
 <p>The slice can be used to select a single layer, or multiple, e.g. using the example of the <a class="reference internal" href="#pytim.gitim.GITIM" title="pytim.gitim.GITIM"><code class="xref py py-class docutils literal"><span class="pre">GITIM</span></code></a> class :</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytim.gitim.GITIM.savepdb">
+<code class="descname">savepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered=True</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM.savepdb" title="Permalink to this definition">¶</a></dt>
+<dd><p>An alias to <a class="reference internal" href="#pytim.gitim.GITIM.writepdb" title="pytim.gitim.GITIM.writepdb"><code class="xref py py-func docutils literal"><span class="pre">writepdb()</span></code></a></p>
 </dd></dl>
 
 <dl class="method">
@@ -173,7 +172,7 @@ to the layers with different beta factor.</p>
 </pre></div>
 </div>
 <dl class="docutils">
-<dt>Example: save the positions without centering the interface. This will </dt>
+<dt>Example: save the positions without centering the interface. This will</dt>
 <dd>leave the atoms in the original position with respect to the cell.
 The :multiframe: option set to :False: will overwrite the file.</dd>
 </dl>
@@ -212,12 +211,22 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/logo.png" alt="Logo"/>
             </a></p>
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">GITIM</a><ul>
-<li><a class="reference internal" href="#module-gtim">Module: gtim</a></li>
+<h3><a href="index.html">Table Of Contents</a></h3>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick.html">Pytim: Quick Tour</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guessing_radii.html">Topologies without atomi radii</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ITIM.html">ITIM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GITIM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-gtim">Module: gtim</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datafiles.html">Datafiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
   <h4>Previous topic</h4>
