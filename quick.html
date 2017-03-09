@@ -76,7 +76,7 @@ for planar interfaces:</p>
 <span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;layers.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span>
 
 <span class="c1"># access the atoms in the layers as an MDAnalysis&#39; AtomGroups</span>
-<span class="n">upper_layer</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">(</span><span class="s1">&#39;upper&#39;</span><span class="p">)</span>
+<span class="n">upper_layer</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>The above lines are doing the following:</p>
