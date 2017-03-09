@@ -27,7 +27,7 @@
     <link rel="shortcut icon" href="_static/pytim.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Topologies without atomi radii" href="guessing_radii.html" />
+    <link rel="next" title="How to Install Pytim" href="install.html" />
     <link rel="prev" title="Pytim: Quick Tour" href="index.html" /> 
   </head>
   <body role="document">
@@ -41,7 +41,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="guessing_radii.html" title="Topologies without atomi radii"
+          <a href="install.html" title="How to Install Pytim"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Pytim: Quick Tour"
@@ -73,7 +73,7 @@ for planar interfaces:</p>
 <span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
 
 <span class="c1"># write a pdb with the information on the surface layers</span>
-<span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;layers.pdb&#39;</span><span class="p">)</span>
+<span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;layers.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span>
 
 <span class="c1"># access the atoms in the layers as an MDAnalysis&#39; AtomGroups</span>
 <span class="n">upper_layer</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">(</span><span class="s1">&#39;upper&#39;</span><span class="p">)</span>
@@ -171,6 +171,8 @@ it is easy to modify the core classes and/or to add new observables</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to Install Pytim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="center.html">To center or not to center?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guessing_radii.html">Topologies without atomi radii</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Modules</span></p>
@@ -186,8 +188,8 @@ it is easy to modify the core classes and/or to add new observables</p>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Pytim: Quick Tour</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="guessing_radii.html"
-                        title="next chapter">Topologies without atomi radii</a></p>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">How to Install Pytim</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -219,7 +221,7 @@ it is easy to modify the core classes and/or to add new observables</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="guessing_radii.html" title="Topologies without atomi radii"
+          <a href="install.html" title="How to Install Pytim"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Pytim: Quick Tour"
