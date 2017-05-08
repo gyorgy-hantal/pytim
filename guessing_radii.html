@@ -67,7 +67,8 @@ feeding the relevant information to the interface constructor.</p>
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>The problem</strong></dt>
-<dd><p class="first">Configuration file formats such as the gromos one do not bear <em>atomtype</em> nor <em>atomic radius</em> information.
+<dd><blockquote class="first">
+<div><p>Configuration file formats such as the gromos one do not bear <em>atomtype</em> nor <em>atomic radius</em> information.
 If the atom names in the configuration file start with one of the letters <cite>[&#8216;C&#8217;, &#8216;F&#8217;, &#8216;H&#8217;, &#8216;O&#8217;, &#8216;N&#8217;, &#8216;P&#8217;, &#8216;S&#8217;]</cite>, Pytim chooses the corresponding
 radius using the MDAnalysis values, and their average otherwise. This is usually a good enough compromise, but it is possible to have full control
 over this. Let&#8217;s start with a &#8220;problematic&#8221; configuration file:</p>
@@ -75,29 +76,45 @@ over this. Let&#8217;s start with a &#8220;problematic&#8221; configuration file
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pytim</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytim.datafiles</span> <span class="k">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">...</span>
 </pre></div>
 </div>
-<p>Since no information is carried by the file format on the radii, we have</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">radii</span>
-<span class="go">[None None None]</span>
-</pre></div>
-</div>
-<p>the atom types will assigned by MDAnalysis are the first letter in the
+<p>the atom types assigned by MDAnalysis are the first letter in the
 atom name:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span>
 <span class="go">[&#39;M&#39; &#39;O&#39; &#39;H&#39;]</span>
 </pre></div>
 </div>
-<p class="last">By initializing the interface, Pytim will associate standard radii to the matching types, and an average radius to the non-matching ones. If this
-is not the wanted behavior, one has usually the following two options:</p>
+<p>By initializing the interface, Pytim will associate standard radii to the matching types, and an average radius to the non-matching ones.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<span class="go">!!                              WARNING</span>
+<span class="go">!! No appropriate radius was found for the atomtype M</span>
+<span class="go">!! Using the average radius (1.20714285714) as a fallback option...</span>
+<span class="go">!! Pass a dictionary of radii (in Angstrom) with the option radii_dict</span>
+<span class="go">!! for example: r={&#39;M&#39;:1.2,...} ; inter=pytim.ITIM(u,radii_dict=r)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">radii</span>
+<span class="go">[ 1.20714286  1.05        0.4       ]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p class="last">If this is not the wanted behavior, one has usually the following two options:</p>
 </dd>
 <dt><strong>Case 1</strong></dt>
 <dd>We know exactly what the atomic radii should be.</dd>
 <dt><strong>Solution</strong></dt>
 <dd><p class="first">build a dictionary of radii corresponding to the first letter
 of the atom name</p>
-<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mydict</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">}</span>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mydict</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">mydict</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">u</span><span class="o">.</span><span class="n">residues</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">radii</span>
+<span class="go">[ 1.6  1.5  0. ]</span>
 </pre></div>
 </div>
 </dd>
@@ -105,7 +122,8 @@ of the atom name</p>
 <dd>We don&#8217;t know exactly the atomic radii, but we don&#8217;t want to use just the standard values.</dd>
 <dt><strong>Solution</strong></dt>
 <dd><p class="first">Use an existing topology, and overwrite the types guessed by MDAnalysis</p>
-<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load the radii</span>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load the radii</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">radii_gromos</span> <span class="o">=</span> <span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># check which types are available</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">radii_gromos</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -140,7 +158,8 @@ pytim.tables.vdwradii:</p>
 </div>
 <p>When building the interface, Pytim will try to guess atom types and radii. Since <cite>M</cite>
 does not match any atom type in <cite>tables.vdwradii</cite>, the following warning is issued:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
 <span class="go">!!                              WARNING</span>
 <span class="go">!! No appropriate radius was found for the atomtype M</span>
 <span class="go">!! Using the average radius (1.20714285714) as a fallback option...</span>
@@ -155,7 +174,8 @@ does not match any atom type in <cite>tables.vdwradii</cite>, the following warn
 <p>now the warning is not issued anymore:
 &gt;&gt;&gt; interface = pytim.ITIM(u,cluster_cut=5.0)</p>
 <p>Of course, one can provide all the radii explicitly:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="mf">1.5</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="mf">1.6</span><span class="p">,</span><span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -165,7 +185,8 @@ does not match any atom type in <cite>tables.vdwradii</cite>, the following warn
 </pre></div>
 </div>
 <p>We can extract the radii for the GROMOS 43A1 topology , like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">radii_gromos</span><span class="o">=</span><span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radii_gromos</span><span class="o">=</span><span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -201,14 +222,16 @@ to those of the topology, like</p>
 </pre></div>
 </div>
 <p>Better. Now we can feed them to the interface constructor:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">myradii</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">myradii</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>An equivalent result can be obtained faster, by overwriting the types:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="o">==</span><span class="s1">&#39;M&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;CMet&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">types</span><span class="o">==</span><span class="s1">&#39;O&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;OMet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">METHANOL_GRO</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii_gromos</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[:]</span>
 <span class="go">[[&lt;AtomGroup with 555 atoms&gt;]</span>
 <span class="go"> [&lt;AtomGroup with 564 atoms&gt;]]</span>
 </pre></div>
@@ -243,6 +266,7 @@ to those of the topology, like</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quick.html">Pytim: Quick Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">How to Install Pytim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="micelle.html">Surface of a micelle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="center.html">To center or not to center?</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Topologies without atomi radii</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
@@ -309,7 +333,7 @@ to those of the topology, like</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

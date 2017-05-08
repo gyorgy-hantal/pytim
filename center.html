@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Topologies without atomi radii" href="guessing_radii.html" />
-    <link rel="prev" title="How to Install Pytim" href="install.html" /> 
+    <link rel="prev" title="Surface of a micelle" href="micelle.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -44,7 +44,7 @@
           <a href="guessing_radii.html" title="Topologies without atomi radii"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to Install Pytim"
+          <a href="micelle.html" title="Surface of a micelle"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
       </ul>
@@ -75,21 +75,22 @@ atoms in the unit cell, and the liquid phase crossing the periodic boundary cond
 <span class="n">u</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;centering1.pdb&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Default, centering at the origin</strong></p>
-<p>When initializing/computing the interface, Pytim internally centers the interface in different ways, depending whether <a class="reference internal" href="ITIM.html#pytim.itim.ITIM" title="pytim.itim.ITIM"><code class="xref py py-class docutils literal"><span class="pre">ITIM</span></code></a> or <a class="reference internal" href="GITIM.html#pytim.gitim.GITIM" title="pytim.gitim.GITIM"><code class="xref py py-class docutils literal"><span class="pre">GITIM</span></code></a> is used. For planar interfaces, by default the middle of the liquid phase is moved to the origin along the surface normal, while the positions along other directions are placed in the box. In our case, the result is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;centering2.pdb&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<a class="reference internal image-reference" href="_images/centering2.png"><img alt="_images/centering2.png" class="align-center" src="_images/centering2.png" style="width: 35%;" /></a>
-<p>This comes handy to quickly discriminate between upper and lower surface atoms, to spot immediately the middle of the liquid phase, or to verify that the automatic centering method behaved as expected.</p>
-<p><strong>No centering</strong></p>
-<p>If the option <cite>centered=&#8217;no&#8217;</cite> is passed to <code class="xref py py-meth docutils literal"><span class="pre">writepdb()</span></code>, then the first atom of the system is kept at its original position (i.e., no shift is applied) although the system is always put into the basic cell.</p>
+<p>When initializing/computing the interface, Pytim internally centers the interface in different ways, depending whether <a class="reference internal" href="ITIM.html#pytim.itim.ITIM" title="pytim.itim.ITIM"><code class="xref py py-class docutils literal"><span class="pre">ITIM</span></code></a> or <a class="reference internal" href="GITIM.html#pytim.gitim.GITIM" title="pytim.gitim.GITIM"><code class="xref py py-class docutils literal"><span class="pre">GITIM</span></code></a> is used. When the configuration with the surface layers information is written to file using <code class="xref py py-meth docutils literal"><span class="pre">writepdb()</span></code>, the system can be shifted so that the liquid phase is placed at different positions.</p>
+<p><strong>Default, no centering</strong></p>
+<p>If the (default) option <cite>centered=&#8217;no&#8217;</cite> is used, then all atomic positions are kept the same as in the input file.
+This is like the initial case, however with information on the surface molecules added to the pdb.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;centering3.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This is like the initial case, however with information on the surface molecules added to the pdb.</p>
 <a class="reference internal image-reference" href="_images/centering3.png"><img alt="_images/centering3.png" class="align-center" src="_images/centering3.png" style="width: 35%;" /></a>
+<p><strong>Centering at the origin</strong></p>
+<p>The system can be shifted so that the liquid phase is placed across the origin of the normal axis, using the option <cite>centered=origin</cite>.
+This comes handy to quickly discriminate between upper and lower surface atoms, to spot immediately the middle of the liquid phase, or to verify that the automatic centering method behaved as expected.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;centering2.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="s1">&#39;origin&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/centering2.png"><img alt="_images/centering2.png" class="align-center" src="_images/centering2.png" style="width: 35%;" /></a>
 <p><strong>Centering in the middle</strong></p>
 <p>If the option <cite>centered=&#8217;middle&#8217;</cite> is passed  to <a class="reference internal" href="ITIM.html#pytim.itim.ITIM.writepdb" title="pytim.itim.ITIM.writepdb"><code class="xref py py-meth docutils literal"><span class="pre">writepdb()</span></code></a>, instead, then the liquid part of the system is placed in the middle of the box along the surface normal:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;centering4.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span>
@@ -127,6 +128,7 @@ atoms in the unit cell, and the liquid phase crossing the periodic boundary cond
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quick.html">Pytim: Quick Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">How to Install Pytim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="micelle.html">Surface of a micelle</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">To center or not to center?</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-pdb-output-for-a-planar-interface">Example: pdb output for a planar interface</a><ul class="simple">
@@ -146,8 +148,8 @@ atoms in the unit cell, and the liquid phase crossing the periodic boundary cond
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="install.html"
-                        title="previous chapter">How to Install Pytim</a></p>
+  <p class="topless"><a href="micelle.html"
+                        title="previous chapter">Surface of a micelle</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="guessing_radii.html"
                         title="next chapter">Topologies without atomi radii</a></p>
@@ -185,14 +187,14 @@ atoms in the unit cell, and the liquid phase crossing the periodic boundary cond
           <a href="guessing_radii.html" title="Topologies without atomi radii"
              >next</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to Install Pytim"
+          <a href="micelle.html" title="Surface of a micelle"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

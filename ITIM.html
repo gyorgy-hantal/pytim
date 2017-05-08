@@ -61,9 +61,8 @@
 <h2>Module: itim<a class="headerlink" href="#module-itim" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.itim.ITIM">
-<em class="property">class </em><code class="descclassname">pytim.itim.</code><code class="descname">ITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>mesh=0.4</em>, <em>alpha=2.0</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identifies the interfacial molecules at macroscopically
-flat interfaces.</p>
+<em class="property">class </em><code class="descclassname">pytim.itim.</code><code class="descname">ITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>mesh=0.4</em>, <em>alpha=2.0</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies interfacial molecules at macroscopically flat interfaces.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -72,13 +71,15 @@ flat interfaces.</p>
 <li><strong>universe</strong> (<em>Universe</em>) &#8211; the MDAnalysis universe</li>
 <li><strong>mesh</strong> (<em>float</em>) &#8211; the grid spacing used for the testlines</li>
 <li><strong>alpha</strong> (<em>float</em>) &#8211; the probe sphere radius</li>
-<li><strong>normal</strong> (<em>str</em>) &#8211; the macroscopic interface normal direction &#8216;x&#8217;,&#8217;y&#8217; or &#8216;z&#8217; (by default is &#8216;guess&#8217;)</li>
-<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules from this group</li>
-<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the elements in the itim_group.
-If None is supplied, the default one (from GROMOS 43a1) will be used.</li>
+<li><strong>normal</strong> (<em>str</em>) &#8211; the macroscopic interface normal direction                                  &#8216;x&#8217;,&#8217;y&#8217; or &#8216;z&#8217; (by default is &#8216;guess&#8217;)</li>
+<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules from                                     this group</li>
+<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                                  elements in the itim_group. If None is                                  supplied, the default one (from MDAnalysis)                                  will be used.</li>
 <li><strong>max_layers</strong> (<em>int</em>) &#8211; the number of layers to be identified</li>
+<li><strong>cluster_cut</strong> (<em>float</em>) &#8211; cutoff used for neighbors or density-based                                  cluster search (default: None disables the                                  cluster analysis)</li>
+<li><strong>cluster_threshold_density</strong> (<em>float</em>) &#8211; Number density threshold for                                  the density-based cluster search. &#8216;auto&#8217;                                  determines the threshold automatically.                                  Default: None uses simple neighbors cluster                                  search, if cluster_cut is not None</li>
+<li><strong>molecular</strong> (<em>bool</em>) &#8211; Switches between search of interfacial                                  molecules / atoms (default: True)</li>
 <li><strong>info</strong> (<em>bool</em>) &#8211; print additional info</li>
-<li><strong>multiproc</strong> (<em>bool</em>) &#8211; parallel version (default: True. Switch off for debugging)</li>
+<li><strong>multiproc</strong> (<em>bool</em>) &#8211; parallel version (default: True. Switch off                                  for debugging)</li>
 </ul>
 </td>
 </tr>
@@ -94,7 +95,7 @@ If None is supplied, the default one (from GROMOS 43a1) will be used.</li>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">max_layers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># first layer, upper</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># first layer, upper</span>
 <span class="go">&lt;AtomGroup with 406 atoms&gt;</span>
 </pre></div>
 </div>
@@ -115,7 +116,7 @@ of the box along all directions, set halfbox_shift=False</p>
 <dl class="attribute">
 <dt id="pytim.itim.ITIM.layers">
 <code class="descname">layers</code><a class="headerlink" href="#pytim.itim.ITIM.layers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Access the layers as numpy arrays of AtomGroups</p>
+<dd><p>Access the layers as numpy arrays of AtomGroups.</p>
 <p>The object can be sliced as usual with numpy arrays, so, for example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>  <span class="c1"># upper side (0), all layers</span>
 <span class="go">array([&lt;AtomGroup with 406 atoms&gt;, &lt;AtomGroup with 411 atoms&gt;,</span>
@@ -133,7 +134,7 @@ of the box along all directions, set halfbox_shift=False</p>
 <span class="go">        &lt;AtomGroup with 399 atoms&gt;]], dtype=object)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># 1st - 4th layer, with a stride of 2 (0:4:2), lower side (1)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># side 1, layers 1-4 &amp; stride 2 (0:4:2)</span>
 <span class="go">array([&lt;AtomGroup with 406 atoms&gt;, &lt;AtomGroup with 399 atoms&gt;], dtype=object)</span>
 </pre></div>
 </div>
@@ -141,22 +142,22 @@ of the box along all directions, set halfbox_shift=False</p>
 
 <dl class="method">
 <dt id="pytim.itim.ITIM.savepdb">
-<code class="descname">savepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered=True</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.savepdb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">savepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.savepdb" title="Permalink to this definition">¶</a></dt>
 <dd><p>An alias to <a class="reference internal" href="#pytim.itim.ITIM.writepdb" title="pytim.itim.ITIM.writepdb"><code class="xref py py-func docutils literal"><span class="pre">writepdb()</span></code></a></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytim.itim.ITIM.triangulate_layer">
 <code class="descname">triangulate_layer</code><span class="sig-paren">(</span><em>layer=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.triangulate_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Triangulate a layer</p>
+<dd><p>Triangulate a layer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>layer</strong> (<em>int</em>) &#8211; (default: 1) triangulate this layer (on both sides of the interface)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>layer</strong> (<em>int</em>) &#8211; (default: 1) triangulate this layer (on both sides                           of the interface)</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Return list triangulations:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">a list of two Delaunay triangulations, which are also stored in self.surface_triangulation</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">a list of two Delaunay triangulations,                           which are also stored in self.surf_triang</td>
 </tr>
 </tbody>
 </table>
@@ -164,7 +165,7 @@ of the box along all directions, set halfbox_shift=False</p>
 
 <dl class="method">
 <dt id="pytim.itim.ITIM.writepdb">
-<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='origin'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.writepdb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.writepdb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the frame to a pdb file, marking the atoms belonging
 to the layers with different beta factor.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -173,7 +174,7 @@ to the layers with different beta factor.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>filename</strong> &#8211; string  &#8211; the output file name</li>
-<li><strong>origin</strong> &#8211; string  &#8211; &#8216;origin&#8217;, &#8216;middle&#8217;, or &#8216;no&#8217;</li>
+<li><strong>centered</strong> &#8211; string  &#8211; &#8216;origin&#8217;, &#8216;middle&#8217;, or &#8216;no&#8217;</li>
 <li><strong>multiframe</strong> &#8211; boolean &#8211; append to pdb file if True</li>
 </ul>
 </td>
@@ -293,7 +294,7 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

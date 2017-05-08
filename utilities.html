@@ -59,14 +59,14 @@
 <span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-pytim.utilities" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="pytim.utilities.do_cluster_analysis_DBSCAN">
-<code class="descclassname">pytim.utilities.</code><code class="descname">do_cluster_analysis_DBSCAN</code><span class="sig-paren">(</span><em>group</em>, <em>cluster_cut</em>, <em>box</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.do_cluster_analysis_DBSCAN" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pytim.utilities.</code><code class="descname">do_cluster_analysis_DBSCAN</code><span class="sig-paren">(</span><em>group</em>, <em>cluster_cut</em>, <em>box</em>, <em>threshold_density=None</em>, <em>molecular=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.do_cluster_analysis_DBSCAN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a cluster analysis using DBSCAN</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Returns [labels,counts]:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">lists of the id of the cluster to which every atom is belonging to, and of the number of elements in each cluster.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">lists of the id of the cluster to which                                  every atom is belonging to, and of the                                  number of elements in each cluster.</td>
 </tr>
 </tbody>
 </table>
@@ -75,6 +75,38 @@ that takes periodic boundary conditions into account (through
 cKDTree&#8217;s boxsize option) and collects also the sizes of all
 clusters. This is on average O(N log N) thanks to the O(log N)
 scaling of the kdtree.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytim.utilities.fit_sphere">
+<code class="descclassname">pytim.utilities.</code><code class="descname">fit_sphere</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.fit_sphere" title="Permalink to this definition">¶</a></dt>
+<dd><p>least square fit of a sphere through a set of points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>points</strong> (<em>ndarray</em>) &#8211; a (N,3) array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns list:</th><td class="field-body">radius, center_x, center_y, center_z</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytim.utilities.generate_grid_in_box">
+<code class="descclassname">pytim.utilities.</code><code class="descname">generate_grid_in_box</code><span class="sig-paren">(</span><em>box</em>, <em>npoints</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.generate_grid_in_box" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate an homogenous grid of npoints^3 points that spans the
+complete box.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytim.utilities.generate_periodic_border_3d">
+<code class="descclassname">pytim.utilities.</code><code class="descname">generate_periodic_border_3d</code><span class="sig-paren">(</span><em>points</em>, <em>box</em>, <em>delta</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.generate_periodic_border_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects the pparticles within a skin depth delta from the
+simulation box, and replicates them to mimic periodic
+boundary conditions. Returns all points (original +
+periodic copies) and the indices of the original particles</p>
 </dd></dl>
 
 <dl class="function">
@@ -88,17 +120,17 @@ scaling of the kdtree.</p>
 <code class="descclassname">pytim.utilities.</code><code class="descname">triangulated_surface_stats</code><span class="sig-paren">(</span><em>tri2d</em>, <em>points3d</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.triangulated_surface_stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return basic statistics about a surface triangulation</p>
 <p>Implemented statistics are: surface area</p>
-<p>:param tri2d             : indices of triangles vertices
-:param ndarray  points3d : the heigth of each vertex along the third dimension
-:returns list stats      : the statistics :  [surface_area]</p>
+<p>:param ndarray tri2d : indices of triangles vertices
+:param ndarray points3d : the heigth of each vertex along the third                                  dimension
+:returns list stats : the statistics :  [surface_area]</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytim.utilities.trim_triangulated_surface">
 <code class="descclassname">pytim.utilities.</code><code class="descname">trim_triangulated_surface</code><span class="sig-paren">(</span><em>tri</em>, <em>box</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.trim_triangulated_surface" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reduce a surface triangulation that has been extended to allow for periodic boundary conditions
-to the primary cell.</p>
-<p>The simplices within the primary cell are those with at least two vertices within the cell boundaries.</p>
+<dd><p>Reduce a surface triangulation that has been extended to        allow for periodic boundary conditions            to the primary cell.</p>
+<blockquote>
+<div>The simplices within the primary cell are those with at            least two vertices within the cell boundaries.</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -110,7 +142,64 @@ to the primary cell.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Returns ndarray simplices:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first last">the simplices within the primary cell.</p>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last">the simplices within the primary cell.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytim.utilities.write_vtk_points">
+<code class="descclassname">pytim.utilities.</code><code class="descname">write_vtk_points</code><span class="sig-paren">(</span><em>filename</em>, <em>pos</em>, <em>color=None</em>, <em>radius=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.write_vtk_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>write in a vtk file the positions of particles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>string</em>) &#8211; the filename</li>
+<li><strong>pos</strong> (<em>array</em>) &#8211; the positions to be written to the vtk file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytim.utilities.write_vtk_scalar_grid">
+<code class="descclassname">pytim.utilities.</code><code class="descname">write_vtk_scalar_grid</code><span class="sig-paren">(</span><em>filename</em>, <em>grid_size</em>, <em>spacing</em>, <em>scalars</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.write_vtk_scalar_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>write in a vtk file a scalar field on a rectangular grid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>string</em>) &#8211; the filename</li>
+<li><strong>grid_size</strong> (<em>int</em>) &#8211; number of points along one side of the the cubic                             grid along one dimension</li>
+<li><strong>spacing</strong> (<em>array</em>) &#8211; a (3,) array with the point spacing along the 3                             directions</li>
+<li><strong>scalars</strong> (<em>array</em>) &#8211; a (grid_size,) array with the scalar field values</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytim.utilities.write_vtk_triangulation">
+<code class="descclassname">pytim.utilities.</code><code class="descname">write_vtk_triangulation</code><span class="sig-paren">(</span><em>filename</em>, <em>vertices</em>, <em>triangles</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.utilities.write_vtk_triangulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>write in a vtk file a triangulation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>string</em>) &#8211; the filename</li>
+<li><strong>vertices</strong> (<em>array</em>) &#8211; (N,3) array of floats for N vertices</li>
+<li><strong>triangles</strong> (<em>array</em>) &#8211; (M,3) array of indices to the vertices</li>
+</ul>
 </td>
 </tr>
 </tbody>
@@ -204,7 +293,7 @@ to the primary cell.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
     </div>
   </body>
 </html>

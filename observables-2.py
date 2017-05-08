@@ -13,10 +13,10 @@ profile = pytim.observables.Profile(group=oxygens,observable=obs)
 
 interface = pytim.ITIM(u, alpha=2.0, max_layers=1,cluster_cut=3.5)
 
-for ts in u.trajectory[:]:
+for ts in u.trajectory[::50]:
     interface.center(oxygens)
     profile.sample()
 
-low, up, avg = profile.profile(binwidth=1.0)
+low, up, avg = profile.get_values(binwidth=1.0)
 plt.plot((low+up)/2., avg)
 plt.show()
