@@ -113,7 +113,7 @@ only the atoms at the surface, and not the whole residues to which these atoms b
 <h2>Some statistics<a class="headerlink" href="#some-statistics" title="Permalink to this headline">¶</a></h2>
 <p>It&#8217;s easy to calculate some simple statistical properties. For example, the percentage of atoms of DPC at the surface is</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="s2">&quot;percentage of atoms at the surface: </span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inter</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">100.</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
-<span class="go">percentage of atoms at the surface: 37.3</span>
+<span class="go">percentage of atoms at the surface: 37.4</span>
 </pre></div>
 </div>
 <p>This is a rather high percentage, but is due to the small size of the micelle (large surface/volume ratio)</p>
@@ -124,27 +124,27 @@ only the atoms at the surface, and not the whole residues to which these atoms b
 <span class="gp">... </span>    <span class="n">surface</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">inter</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">names</span> <span class="o">==</span> <span class="n">name</span> <span class="p">)</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&gt;4s}</span><span class="s1"> ---&gt; </span><span class="si">{:&gt;2.0f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">surface</span><span class="o">*</span><span class="mf">100.</span><span class="o">/</span><span class="n">total</span><span class="p">))</span>
 <span class="go">  C1 ---&gt; 86%</span>
-<span class="go">  C2 ---&gt; 58%</span>
-<span class="go">  C3 ---&gt; 74%</span>
+<span class="go">  C2 ---&gt; 57%</span>
+<span class="go">  C3 ---&gt; 75%</span>
 <span class="go">  N4 ---&gt;  0%</span>
 <span class="go">  C5 ---&gt; 69%</span>
 <span class="go">  C6 ---&gt; 88%</span>
-<span class="go">  O7 ---&gt; 58%</span>
-<span class="go">  P8 ---&gt;  2%</span>
-<span class="go">  O9 ---&gt; 71%</span>
+<span class="go">  O7 ---&gt; 60%</span>
+<span class="go">  P8 ---&gt;  0%</span>
+<span class="go">  O9 ---&gt; 72%</span>
 <span class="go"> O10 ---&gt; 82%</span>
 <span class="go"> O11 ---&gt; 49%</span>
 <span class="go"> C12 ---&gt; 34%</span>
-<span class="go"> C13 ---&gt; 40%</span>
-<span class="go"> C14 ---&gt; 14%</span>
+<span class="go"> C13 ---&gt; 38%</span>
+<span class="go"> C14 ---&gt; 12%</span>
 <span class="go"> C15 ---&gt; 23%</span>
 <span class="go"> C16 ---&gt;  9%</span>
 <span class="go"> C17 ---&gt; 17%</span>
-<span class="go"> C18 ---&gt;  9%</span>
+<span class="go"> C18 ---&gt; 11%</span>
 <span class="go"> C19 ---&gt; 18%</span>
 <span class="go"> C20 ---&gt; 11%</span>
 <span class="go"> C21 ---&gt; 14%</span>
-<span class="go"> C22 ---&gt; 15%</span>
+<span class="go"> C22 ---&gt; 17%</span>
 <span class="go"> C23 ---&gt; 17%</span>
 </pre></div>
 </div>
@@ -209,6 +209,8 @@ water molecules have entered the pocket:</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ITIM.html">ITIM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="GITIM.html">GITIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WillardChandler.html">WillardChandler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChaconTarazona.html">ChaconTarazona</a></li>
 <li class="toctree-l1"><a class="reference internal" href="observables.html">Observables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datafiles.html">Datafiles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>

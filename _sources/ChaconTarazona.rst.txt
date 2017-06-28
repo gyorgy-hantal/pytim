@@ -1,12 +1,11 @@
-ITIM
-****
+ChaconTarazona
+**************
 
-.. automodule:: pytim.itim
-   :members: 
+.. automodule:: pytim.chacon_tarazona
+   :members:
    :inherited-members:
    :member-order: bysource
    :exclude-members: LayerAtomGroup
-
 
 * :ref:`genindex`
 * :ref:`modindex`

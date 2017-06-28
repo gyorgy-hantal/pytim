@@ -28,7 +28,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Datafiles" href="datafiles.html" />
-    <link rel="prev" title="GITIM" href="GITIM.html" /> 
+    <link rel="prev" title="ChaconTarazona" href="ChaconTarazona.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -44,7 +44,7 @@
           <a href="datafiles.html" title="Datafiles"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="GITIM.html" title="GITIM"
+          <a href="ChaconTarazona.html" title="ChaconTarazona"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
       </ul>
@@ -61,7 +61,7 @@
 <h2>Radial Distribution Functions<a class="headerlink" href="#radial-distribution-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.observables.RDF">
-<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">RDF</code><span class="sig-paren">(</span><em>universe</em>, <em>nbins=75</em>, <em>max_radius='full'</em>, <em>exclusion_block=None</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>excluded_dir='z'</em>, <em>observable=None</em>, <em>observable2=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.RDF" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">RDF</code><span class="sig-paren">(</span><em>universe</em>, <em>nbins=75</em>, <em>max_radius='full'</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>observable=None</em>, <em>observable2=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.RDF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates a radial distribution function of some observable from two
 groups.</p>
 <p>The two functions must return an array (of scalars or of vectors)
@@ -76,20 +76,56 @@ two functions is used to weight the distriution function.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>max_radius</strong> (<em>double</em>) &#8211; compute the rdf up to this distance. If &#8216;full&#8217; is                           supplied (default) computes it up to half of the                            smallest box side.</li>
 <li><strong>nbins</strong> (<em>int</em>) &#8211; number of bins</li>
-<li><strong>excluded_dir</strong> (<em>char</em>) &#8211; project position vectors onto the plane                              orthogonal to &#8216;z&#8217;,&#8217;y&#8217; or &#8216;z&#8217;                              (TODO not used here, check &amp; remove)</li>
 <li><strong>observable</strong> (<em>Observable</em>) &#8211; observable for first group</li>
 <li><strong>observable2</strong> (<em>Observable</em>) &#8211; observable for second group</li>
-<li><strong>weights</strong> (<em>array</em>) &#8211; weights to be applied to the distribution function                          (mutually exclusive with observable/observable2)</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="k">as</span> <span class="nn">mda</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pytim</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytim</span> <span class="k">import</span> <span class="n">observables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytim.datafiles</span> <span class="k">import</span> <span class="o">*</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">WATER_GRO</span><span class="p">,</span><span class="n">WATER_XTC</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">oxygens</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s2">&quot;name OW&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span> <span class="o">=</span> <span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nres</span> <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">NumberOfResidues</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf</span> <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">RDF</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">nbins</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>        <span class="n">observable</span><span class="o">=</span><span class="n">nres</span><span class="p">,</span><span class="n">observable2</span><span class="o">=</span><span class="n">nres</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span><span class="n">itim_group</span><span class="o">=</span><span class="n">oxygens</span><span class="p">,</span>        <span class="n">max_layers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">radii_dict</span><span class="o">=</span><span class="n">radii</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">3.5</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">trajectory</span><span class="p">[::</span><span class="mi">50</span><span class="p">]</span> <span class="p">:</span>
+<span class="gp">... </span>    <span class="n">layer</span><span class="o">=</span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">rdf</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span><span class="n">layer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf</span><span class="o">.</span><span class="n">rdf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;RDF3D.dat&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">rdf</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span><span class="n">rdf</span><span class="o">.</span><span class="n">rdf</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Note that one needs to specify neither both groups, not both observables.
+If only the first group (observable) is specified, the second is assumed
+to be the same as the first, as in the following example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rdf1</span> <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">RDF</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">observable</span><span class="o">=</span><span class="n">nres</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf2</span> <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">RDF</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">observable</span><span class="o">=</span><span class="n">nres</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf3</span> <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">RDF</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">observable</span><span class="o">=</span><span class="n">nres</span><span class="p">,</span><span class="n">observable2</span><span class="o">=</span><span class="n">nres</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf1</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf2</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span><span class="n">layer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rdf3</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span><span class="n">layer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">rdf1</span><span class="o">.</span><span class="n">rdf</span><span class="p">[:]</span><span class="o">==</span><span class="n">rdf2</span><span class="o">.</span><span class="n">rdf</span><span class="p">[:]),</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">rdf1</span><span class="o">.</span><span class="n">rdf</span><span class="p">[:]</span><span class="o">==</span><span class="n">rdf3</span><span class="o">.</span><span class="n">rdf</span><span class="p">[:])</span>
+<span class="go">True True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="class">
 <dt id="pytim.observables.RDF2D">
-<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">RDF2D</code><span class="sig-paren">(</span><em>universe</em>, <em>nbins=75</em>, <em>max_radius='full'</em>, <em>exclusion_block=None</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>excluded_dir='z'</em>, <em>true2D=False</em>, <em>observable=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.RDF2D" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">RDF2D</code><span class="sig-paren">(</span><em>universe</em>, <em>nbins=75</em>, <em>max_radius='full'</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>excluded_dir='z'</em>, <em>true2D=False</em>, <em>observable=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.RDF2D" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates a radial distribution function of some observable from two
 groups, projected on a plane.</p>
 <p>The two functions must return an array (of scalars or of vectors)
@@ -104,7 +140,6 @@ two functions is used to weight the distriution function.</p>
 <li><strong>excluded_dir</strong> (<em>char</em>) &#8211; project position vectors onto the plane                              orthogonal to &#8216;z&#8217;,&#8217;y&#8217; or &#8216;z&#8217;</li>
 <li><strong>observable</strong> (<em>Observable</em>) &#8211; observable for group 1</li>
 <li><strong>observable2</strong> (<em>Observable</em>) &#8211; observable for group 2</li>
-<li><strong>weights</strong> (<em>array</em>) &#8211; weights to be applied to the distribution                          function (mutually exclusive with                          observable/observable2)</li>
 </ul>
 </td>
 </tr>
@@ -127,7 +162,7 @@ two functions is used to weight the distriution function.</p>
 <span class="gp">... </span>    <span class="n">layer</span><span class="o">=</span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 <span class="gp">... </span>    <span class="n">rdf</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span><span class="n">layer</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rdf</span><span class="o">.</span><span class="n">rdf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;RDF.dat&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">rdf</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span><span class="n">rdf</span><span class="o">.</span><span class="n">rdf</span><span class="p">)))</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;RDF.dat&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">rdf</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span><span class="n">rdf</span><span class="o">.</span><span class="n">rdf</span><span class="p">)))</span>
 </pre></div>
 </div>
 <p>This results in the following RDF:</p>
@@ -171,7 +206,6 @@ across the simulation box.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">max_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">cluster_cut</span><span class="o">=</span><span class="mf">3.5</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">trajectory</span><span class="p">[::</span><span class="mi">50</span><span class="p">]:</span>
-<span class="gp">... </span>    <span class="n">interface</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">oxygens</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="n">profile</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">low</span><span class="p">,</span> <span class="n">up</span><span class="p">,</span> <span class="n">avg</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">get_values</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
@@ -192,7 +226,8 @@ across the simulation box.</p>
 <dt id="pytim.observables.LayerTriangulation">
 <em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">LayerTriangulation</code><span class="sig-paren">(</span><em>interface</em>, <em>layer=1</em>, <em>return_triangulation=True</em>, <em>return_statistics=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.LayerTriangulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the triangulation of the surface and some associated
-quantities.</p>
+quantities. Notice that this forces the interface to be centered
+in the box.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -200,9 +235,9 @@ quantities.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>universe</strong> (<em>Universe</em>) &#8211; the MDAnalysis universe</li>
 <li><strong>interface</strong> (<a class="reference internal" href="ITIM.html#pytim.itim.ITIM" title="pytim.itim.ITIM"><em>ITIM</em></a>) &#8211; compute the triangulation with respect to it</li>
-<li><strong>layer</strong> (<em>int</em>) &#8211; (default: 1) compute the triangulation with respect                   to this layer of the interface</li>
-<li><strong>return_triangulation</strong> (<em>bool</em>) &#8211; (default: True) return the Delaunay                   triangulation used for the interpolation</li>
-<li><strong>return_statistics</strong> (<em>bool</em>) &#8211; (default: True) return the Delaunay                   triangulation used for the interpolation</li>
+<li><strong>layer</strong> (<em>int</em>) &#8211; (default: 1) compute the triangulation with respect                      to this layer of the interface</li>
+<li><strong>return_triangulation</strong> (<em>bool</em>) &#8211; (default: True) return the Delaunay                      triangulation used for the interpolation</li>
+<li><strong>return_statistics</strong> (<em>bool</em>) &#8211; (default: True) return the Delaunay                      triangulation used for the interpolation</li>
 </ul>
 </td>
 </tr>
@@ -211,25 +246,19 @@ quantities.</p>
 </tr>
 </tbody>
 </table>
-<dl class="method">
-<dt id="pytim.observables.LayerTriangulation.compute">
-<code class="descname">compute</code><span class="sig-paren">(</span><em>inp=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.LayerTriangulation.compute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Triangulate a layer on both sides of the interface.</p>
 <p>Example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">WATER_GRO</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">surface</span>   <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">LayerTriangulation</span><span class="p">(</span>                                <span class="n">interface</span><span class="p">,</span><span class="n">return_triangulation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">surface</span>   <span class="o">=</span> <span class="n">observables</span><span class="o">.</span><span class="n">LayerTriangulation</span><span class="p">(</span>                           <span class="n">interface</span><span class="p">,</span><span class="n">return_triangulation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span>     <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Surface= </span><span class="si">{:04.1f}</span><span class="s2"> A^2&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-<span class="go">Surface= 7317.1 A^2</span>
+<span class="go">Surface= 7314.4 A^2</span>
 </pre></div>
 </div>
 </dd></dl>
 
-</dd></dl>
-
 <dl class="class">
 <dt id="pytim.observables.IntrinsicDistance">
-<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">IntrinsicDistance</code><span class="sig-paren">(</span><em>interface</em>, <em>layer=1</em>, <em>return_triangulation=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.IntrinsicDistance" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">IntrinsicDistance</code><span class="sig-paren">(</span><em>interface</em>, <em>layer=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.IntrinsicDistance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the intrinsic distance calculation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -239,7 +268,6 @@ quantities.</p>
 <li><strong>universe</strong> (<em>Universe</em>) &#8211; the MDAnalysis universe</li>
 <li><strong>interface</strong> (<a class="reference internal" href="ITIM.html#pytim.itim.ITIM" title="pytim.itim.ITIM"><em>ITIM</em></a>) &#8211; compute the intrinsic distance with respect                              to this interface</li>
 <li><strong>layer</strong> (<em>int</em>) &#8211; (default: 1) compute the intrinsic distance                          with respect to this layer of the interface</li>
-<li><strong>return_triangulation</strong> (<em>bool</em>) &#8211; (default: False) return the                   Delaunay triangulation used for the interpolation</li>
 </ul>
 </td>
 </tr>
@@ -259,7 +287,6 @@ layers.</p>
 </tr>
 </tbody>
 </table>
-<p>Example: TODO</p>
 </dd></dl>
 
 </dd></dl>
@@ -269,7 +296,7 @@ layers.</p>
 <h2>Basic Observables<a class="headerlink" href="#basic-observables" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.observables.Number">
-<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">Number</code><a class="headerlink" href="#pytim.observables.Number" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.observables.</code><code class="descname">Number</code><span class="sig-paren">(</span><em>*arg</em>, <em>**kwarg</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.observables.Number" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of atoms.</p>
 <dl class="method">
 <dt id="pytim.observables.Number.compute">
@@ -339,8 +366,8 @@ See <a class="reference internal" href="#pytim.observables.MolecularOrientation"
 </tbody>
 </table>
 <p>For each triplet of positions A1,A2,A3, computes the unit vector
-beteeen A2-A1 and  A3-A1 or, if the option &#8216;normal&#8217; is passed at 
-initialization, the unit vector normal to the plane spanned by the 
+beteeen A2-A1 and  A3-A1 or, if the option &#8216;normal&#8217; is passed at
+initialization, the unit vector normal to the plane spanned by the
 three vectors</p>
 </dd></dl>
 
@@ -387,6 +414,8 @@ three vectors</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ITIM.html">ITIM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="GITIM.html">GITIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WillardChandler.html">WillardChandler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChaconTarazona.html">ChaconTarazona</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Observables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#radial-distribution-functions">Radial Distribution Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#profiles">Profiles</a></li>
@@ -399,8 +428,8 @@ three vectors</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="GITIM.html"
-                        title="previous chapter">GITIM</a></p>
+  <p class="topless"><a href="ChaconTarazona.html"
+                        title="previous chapter">ChaconTarazona</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="datafiles.html"
                         title="next chapter">Datafiles</a></p>
@@ -438,7 +467,7 @@ three vectors</p>
           <a href="datafiles.html" title="Datafiles"
              >next</a> |</li>
         <li class="right" >
-          <a href="GITIM.html" title="GITIM"
+          <a href="ChaconTarazona.html" title="ChaconTarazona"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
       </ul>

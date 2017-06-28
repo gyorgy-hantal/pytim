@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GITIM &#8212; Pytim 0.2.0 documentation</title>
+    <title>ChaconTarazona &#8212; Pytim 0.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <link rel="shortcut icon" href="_static/pytim.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="WillardChandler" href="WillardChandler.html" />
-    <link rel="prev" title="ITIM" href="ITIM.html" /> 
+    <link rel="next" title="Observables" href="observables.html" />
+    <link rel="prev" title="WillardChandler" href="WillardChandler.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -41,10 +41,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="WillardChandler.html" title="WillardChandler"
+          <a href="observables.html" title="Observables"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="ITIM.html" title="ITIM"
+          <a href="WillardChandler.html" title="WillardChandler"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
       </ul>
@@ -55,27 +55,29 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-pytim.gitim">
-<span id="gitim"></span><h1>GITIM<a class="headerlink" href="#module-pytim.gitim" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-gtim">
-<h2>Module: gtim<a class="headerlink" href="#module-gtim" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-pytim.chacon_tarazona">
+<span id="chacontarazona"></span><h1>ChaconTarazona<a class="headerlink" href="#module-pytim.chacon_tarazona" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-chacon-tarazona">
+<h2>Module: chacon_tarazona<a class="headerlink" href="#module-chacon-tarazona" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="pytim.gitim.GITIM">
-<em class="property">class </em><code class="descclassname">pytim.gitim.</code><code class="descname">GITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>symmetry='spherical'</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identifies interfacial molecules at macroscopically flat interfaces.</p>
+<dt id="pytim.chacon_tarazona.ChaconTarazona">
+<em class="property">class </em><code class="descclassname">pytim.chacon_tarazona.</code><code class="descname">ChaconTarazona</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>tau=1.5</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>normal='guess'</em>, <em>molecular=True</em>, <em>info=True</em>, <em>mesh=None</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Identifies the dividing surface using the Chacon-Tarazona method</dt>
+<dd>(Chacón, E., and P. Tarazona. Phys. Rev. Lett. 91, 166103,2003)
+(Tarazona, P., and E. Chacón. Phys. Rev. B 70, 235407,2004)</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>universe</strong> (<em>Universe</em>) &#8211; the MDAnalysis universe</li>
-<li><strong>alpha</strong> (<em>float</em>) &#8211; the probe sphere radius</li>
-<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules                                       from this group</li>
-<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of                                       the elements in the itim_group.
-If None is supplied, the default one                                       (from GROMOS 43a1) will be used.</li>
-<li><strong>max_layers</strong> (<em>int</em>) &#8211; the number of layers to be identified</li>
-<li><strong>info</strong> (<em>bool</em>) &#8211; print additional info</li>
-<li><strong>multiproc</strong> (<em>bool</em>) &#8211; parallel version (default: True.                                        Switch off for debugging)</li>
+<li><strong>alpha</strong> (<em>float</em>) &#8211; molecular scale cutoff</li>
+<li><strong>tau</strong> (<em>float</em>) &#8211; particles within this distance form the                              surface will be added durin the                              self-consistent procedure.</li>
+<li><strong>molecular</strong> (<em>bool</em>) &#8211; Switches between search of interfacial                              molecules / atoms (default: True)</li>
+<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; compute the density using this group</li>
+<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                              elements in the itim_group. If None is                              supplied, the default one (from MDAnalysis)                              will be used.</li>
 </ul>
 </td>
 </tr>
@@ -83,102 +85,93 @@ If None is supplied, the default one                                       (from
 </table>
 <p>Example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="k">as</span> <span class="nn">mda</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pytim</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span>   <span class="nn">pytim.datafiles</span> <span class="k">import</span> <span class="o">*</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span>       <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">MICELLE_PDB</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span>       <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s1">&#39;resname DPC&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span><span class="o">=</span><span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span><span class="n">pytim</span><span class="o">.</span><span class="n">GITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">itim_group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                <span class="n">symmetry</span><span class="o">=</span><span class="s1">&#39;spherical&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;gitim.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
-<span class="go">&lt;AtomGroup with 559 atoms&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytim.datafiles</span> <span class="k">import</span> <span class="n">WATER_GRO</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">WATER_GRO</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s1">&#39;name OW&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ChaconTarazona</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span><span class="n">itim_group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;CT.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">)</span>
+<span class="go">array([[&lt;AtomGroup with 175 atoms&gt;],</span>
+<span class="go">       [&lt;AtomGroup with 159 atoms&gt;]], dtype=object)</span>
 </pre></div>
 </div>
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.alpha">
-<code class="descname">alpha</code><a class="headerlink" href="#pytim.gitim.GITIM.alpha" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.alpha">
+<code class="descname">alpha</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.alpha" title="Permalink to this definition">¶</a></dt>
 <dd><p>(float) real space cutoff</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.cluster_cut">
-<code class="descname">cluster_cut</code><a class="headerlink" href="#pytim.gitim.GITIM.cluster_cut" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.cluster_cut">
+<code class="descname">cluster_cut</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.cluster_cut" title="Permalink to this definition">¶</a></dt>
 <dd><p>(real) cutoff for phaseidentification</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.cluster_threshold_density">
-<code class="descname">cluster_threshold_density</code><a class="headerlink" href="#pytim.gitim.GITIM.cluster_threshold_density" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.cluster_threshold_density">
+<code class="descname">cluster_threshold_density</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.cluster_threshold_density" title="Permalink to this definition">¶</a></dt>
 <dd><p>(float) threshold for the density-based filtering</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.extra_cluster_groups">
-<code class="descname">extra_cluster_groups</code><a class="headerlink" href="#pytim.gitim.GITIM.extra_cluster_groups" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.extra_cluster_groups">
+<code class="descname">extra_cluster_groups</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.extra_cluster_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>(ndarray) additional cluster groups</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.info">
-<code class="descname">info</code><a class="headerlink" href="#pytim.gitim.GITIM.info" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.info">
+<code class="descname">info</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.info" title="Permalink to this definition">¶</a></dt>
 <dd><p>(bool) print additional information</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.itim_group">
-<code class="descname">itim_group</code><a class="headerlink" href="#pytim.gitim.GITIM.itim_group" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.itim_group">
+<code class="descname">itim_group</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.itim_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>(AtomGroup) the group,the surface of which should be computed</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.layers">
-<code class="descname">layers</code><a class="headerlink" href="#pytim.gitim.GITIM.layers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Access the layers as numpy arrays of AtomGroups.</p>
-<p>The object can be sliced as usual with numpy arrays.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pytim.gitim.GITIM.max_layers">
-<code class="descname">max_layers</code><a class="headerlink" href="#pytim.gitim.GITIM.max_layers" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.max_layers">
+<code class="descname">max_layers</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.max_layers" title="Permalink to this definition">¶</a></dt>
 <dd><p>(int) maximum number of layers to be identified</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.molecular">
-<code class="descname">molecular</code><a class="headerlink" href="#pytim.gitim.GITIM.molecular" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.molecular">
+<code class="descname">molecular</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.molecular" title="Permalink to this definition">¶</a></dt>
 <dd><p>(bool) wheter to computesurface atoms or surface molecules</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.multiproc">
-<code class="descname">multiproc</code><a class="headerlink" href="#pytim.gitim.GITIM.multiproc" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.multiproc">
+<code class="descname">multiproc</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.multiproc" title="Permalink to this definition">¶</a></dt>
 <dd><p>(bool) use parallel implementation</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.radii_dict">
-<code class="descname">radii_dict</code><a class="headerlink" href="#pytim.gitim.GITIM.radii_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.radii_dict">
+<code class="descname">radii_dict</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.radii_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>(dict) custom atomic radii</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pytim.gitim.GITIM.savepdb">
-<code class="descname">savepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM.savepdb" title="Permalink to this definition">¶</a></dt>
-<dd><p>An alias to <a class="reference internal" href="#pytim.gitim.GITIM.writepdb" title="pytim.gitim.GITIM.writepdb"><code class="xref py py-func docutils literal"><span class="pre">writepdb()</span></code></a></p>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.savepdb">
+<code class="descname">savepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.savepdb" title="Permalink to this definition">¶</a></dt>
+<dd><p>An alias to <a class="reference internal" href="#pytim.chacon_tarazona.ChaconTarazona.writepdb" title="pytim.chacon_tarazona.ChaconTarazona.writepdb"><code class="xref py py-func docutils literal"><span class="pre">writepdb()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="pytim.gitim.GITIM.surfaces">
-<code class="descname">surfaces</code><a class="headerlink" href="#pytim.gitim.GITIM.surfaces" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.surfaces">
+<code class="descname">surfaces</code><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.surfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Surfaces associated to the interface</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pytim.gitim.GITIM.writepdb">
-<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>group='all'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM.writepdb" title="Permalink to this definition">¶</a></dt>
+<dt id="pytim.chacon_tarazona.ChaconTarazona.writepdb">
+<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>group='all'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona.writepdb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the frame to a pdb file, marking the atoms belonging
 to the layers with different beta factor.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -252,27 +245,27 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
 <p class="caption"><span class="caption-text">Modules</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ITIM.html">ITIM</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">GITIM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-gtim">Module: gtim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GITIM.html">GITIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WillardChandler.html">WillardChandler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ChaconTarazona</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-chacon-tarazona">Module: chacon_tarazona</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="WillardChandler.html">WillardChandler</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ChaconTarazona.html">ChaconTarazona</a></li>
 <li class="toctree-l1"><a class="reference internal" href="observables.html">Observables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datafiles.html">Datafiles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="ITIM.html"
-                        title="previous chapter">ITIM</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="WillardChandler.html"
-                        title="next chapter">WillardChandler</a></p>
+                        title="previous chapter">WillardChandler</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="observables.html"
+                        title="next chapter">Observables</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/GITIM.rst.txt"
+      <li><a href="_sources/ChaconTarazona.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -300,10 +293,10 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="WillardChandler.html" title="WillardChandler"
+          <a href="observables.html" title="Observables"
              >next</a> |</li>
         <li class="right" >
-          <a href="ITIM.html" title="ITIM"
+          <a href="WillardChandler.html" title="WillardChandler"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
       </ul>

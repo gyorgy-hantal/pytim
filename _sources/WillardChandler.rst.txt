@@ -1,12 +1,11 @@
-ITIM
-****
+WillardChandler
+***************
 
-.. automodule:: pytim.itim
-   :members: 
+.. automodule:: pytim.willard_chandler
+   :members:
    :inherited-members:
    :member-order: bysource
    :exclude-members: LayerAtomGroup
-
 
 * :ref:`genindex`
 * :ref:`modindex`

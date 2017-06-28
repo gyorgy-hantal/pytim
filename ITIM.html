@@ -61,7 +61,7 @@
 <h2>Module: itim<a class="headerlink" href="#module-itim" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.itim.ITIM">
-<em class="property">class </em><code class="descclassname">pytim.itim.</code><code class="descname">ITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>mesh=0.4</em>, <em>alpha=2.0</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.itim.</code><code class="descname">ITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>mesh=0.4</em>, <em>alpha=2.0</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies interfacial molecules at macroscopically flat interfaces.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -93,24 +93,90 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span>         <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">WATER_GRO</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">oxygens</span>   <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s2">&quot;name OW&quot;</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">max_layers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># first layer, upper</span>
-<span class="go">&lt;AtomGroup with 406 atoms&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">max_layers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="method">
-<dt id="pytim.itim.ITIM.center">
-<code class="descname">center</code><span class="sig-paren">(</span><em>group</em>, <em>direction=None</em>, <em>halfbox_shift=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.center" title="Permalink to this definition">¶</a></dt>
-<dd><p>Centers the liquid slab in the simulation box.</p>
-<p>The algorithm tries to avoid problems with the definition
-of the center of mass. First, a rough density profile
-(10 bins) is computed. Then, the group is shifted
-and reboxed until the bins at the box boundaries have a
-density lower than a threshold delta</p>
-<p>In ITIM, the system along the normal direction is always
-centered at 0 (halfbox_shift==True). To center to the middle
-of the box along all directions, set halfbox_shift=False</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># atoms in the layers can be accesses either through</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># the layers array:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span>
+<span class="go">[[&lt;AtomGroup with 777 atoms&gt; &lt;AtomGroup with 693 atoms&gt;</span>
+<span class="go">  &lt;AtomGroup with 693 atoms&gt; &lt;AtomGroup with 660 atoms&gt;]</span>
+<span class="go"> [&lt;AtomGroup with 777 atoms&gt; &lt;AtomGroup with 690 atoms&gt;</span>
+<span class="go">  &lt;AtomGroup with 660 atoms&gt; &lt;AtomGroup with 654 atoms&gt;]]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># upper side, first layer</span>
+<span class="go">&lt;AtomGroup with 777 atoms&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># lower side, third layer</span>
+<span class="go">&lt;AtomGroup with 660 atoms&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># or as a whole AtomGroup. This can include all atoms in all layers:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span>
+<span class="go">&lt;AtomGroup with 5604 atoms&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># or a selection of them, using slicing:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">&lt;AtomGroup with 1437 atoms&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&lt;AtomGroup with 2823 atoms&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the whole system can be quickly saved to a pdb file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># including the layer information, written in the beta field</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># using:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;system.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;first-layers.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;upper-side.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">:])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># of course, the native interface of MDAnalysis can be used to write pdb files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># but the centering options are not available. Writing to other formats that</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># do not support the beta factor will loose the information on the layers.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_layers.pdb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">:]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_uppeer_side.pdb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_second_layers.pdb&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.alpha">
+<code class="descname">alpha</code><a class="headerlink" href="#pytim.itim.ITIM.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float) real space cutoff</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.cluster_cut">
+<code class="descname">cluster_cut</code><a class="headerlink" href="#pytim.itim.ITIM.cluster_cut" title="Permalink to this definition">¶</a></dt>
+<dd><p>(real) cutoff for phaseidentification</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.cluster_threshold_density">
+<code class="descname">cluster_threshold_density</code><a class="headerlink" href="#pytim.itim.ITIM.cluster_threshold_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>(float) threshold for the density-based filtering</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.extra_cluster_groups">
+<code class="descname">extra_cluster_groups</code><a class="headerlink" href="#pytim.itim.ITIM.extra_cluster_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>(ndarray) additional cluster groups</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.info">
+<code class="descname">info</code><a class="headerlink" href="#pytim.itim.ITIM.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>(bool) print additional information</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.itim_group">
+<code class="descname">itim_group</code><a class="headerlink" href="#pytim.itim.ITIM.itim_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>(AtomGroup) the group,the surface of which should be computed</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -119,25 +185,49 @@ of the box along all directions, set halfbox_shift=False</p>
 <dd><p>Access the layers as numpy arrays of AtomGroups.</p>
 <p>The object can be sliced as usual with numpy arrays, so, for example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>  <span class="c1"># upper side (0), all layers</span>
-<span class="go">array([&lt;AtomGroup with 406 atoms&gt;, &lt;AtomGroup with 411 atoms&gt;,</span>
-<span class="go">       &lt;AtomGroup with 414 atoms&gt;, &lt;AtomGroup with 378 atoms&gt;], dtype=object)</span>
+<span class="go">array([&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 693 atoms&gt;,</span>
+<span class="go">       &lt;AtomGroup with 693 atoms&gt;, &lt;AtomGroup with 660 atoms&gt;], dtype=object)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># lower side (1), first layer (0)</span>
-<span class="go">&lt;AtomGroup with 406 atoms&gt;</span>
+<span class="go">&lt;AtomGroup with 777 atoms&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># 1st - 3rd layer (0:3), on both sides</span>
-<span class="go">array([[&lt;AtomGroup with 406 atoms&gt;, &lt;AtomGroup with 411 atoms&gt;,</span>
-<span class="go">        &lt;AtomGroup with 414 atoms&gt;],</span>
-<span class="go">       [&lt;AtomGroup with 406 atoms&gt;, &lt;AtomGroup with 418 atoms&gt;,</span>
-<span class="go">        &lt;AtomGroup with 399 atoms&gt;]], dtype=object)</span>
+<span class="go">array([[&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 693 atoms&gt;,</span>
+<span class="go">        &lt;AtomGroup with 693 atoms&gt;],</span>
+<span class="go">       [&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 690 atoms&gt;,</span>
+<span class="go">        &lt;AtomGroup with 660 atoms&gt;]], dtype=object)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># side 1, layers 1-4 &amp; stride 2 (0:4:2)</span>
-<span class="go">array([&lt;AtomGroup with 406 atoms&gt;, &lt;AtomGroup with 399 atoms&gt;], dtype=object)</span>
+<span class="go">array([&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 660 atoms&gt;], dtype=object)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.max_layers">
+<code class="descname">max_layers</code><a class="headerlink" href="#pytim.itim.ITIM.max_layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) maximum number of layers to be identified</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.molecular">
+<code class="descname">molecular</code><a class="headerlink" href="#pytim.itim.ITIM.molecular" title="Permalink to this definition">¶</a></dt>
+<dd><p>(bool) wheter to computesurface atoms or surface molecules</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.multiproc">
+<code class="descname">multiproc</code><a class="headerlink" href="#pytim.itim.ITIM.multiproc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(bool) use parallel implementation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.radii_dict">
+<code class="descname">radii_dict</code><a class="headerlink" href="#pytim.itim.ITIM.radii_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>(dict) custom atomic radii</p>
 </dd></dl>
 
 <dl class="method">
@@ -146,26 +236,15 @@ of the box along all directions, set halfbox_shift=False</p>
 <dd><p>An alias to <a class="reference internal" href="#pytim.itim.ITIM.writepdb" title="pytim.itim.ITIM.writepdb"><code class="xref py py-func docutils literal"><span class="pre">writepdb()</span></code></a></p>
 </dd></dl>
 
-<dl class="method">
-<dt id="pytim.itim.ITIM.triangulate_layer">
-<code class="descname">triangulate_layer</code><span class="sig-paren">(</span><em>layer=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.triangulate_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Triangulate a layer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>layer</strong> (<em>int</em>) &#8211; (default: 1) triangulate this layer (on both sides                           of the interface)</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Return list triangulations:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">a list of two Delaunay triangulations,                           which are also stored in self.surf_triang</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="pytim.itim.ITIM.surfaces">
+<code class="descname">surfaces</code><a class="headerlink" href="#pytim.itim.ITIM.surfaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Surfaces associated to the interface</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytim.itim.ITIM.writepdb">
-<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.writepdb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">writepdb</code><span class="sig-paren">(</span><em>filename='layers.pdb'</em>, <em>centered='no'</em>, <em>group='all'</em>, <em>multiframe=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM.writepdb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the frame to a pdb file, marking the atoms belonging
 to the layers with different beta factor.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -175,6 +254,7 @@ to the layers with different beta factor.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>filename</strong> &#8211; string  &#8211; the output file name</li>
 <li><strong>centered</strong> &#8211; string  &#8211; &#8216;origin&#8217;, &#8216;middle&#8217;, or &#8216;no&#8217;</li>
+<li><strong>group</strong> &#8211; AtomGroup &#8211; if &#8216;all&#8217; is passed, the universe is used</li>
 <li><strong>multiframe</strong> &#8211; boolean &#8211; append to pdb file if True</li>
 </ul>
 </td>
@@ -242,6 +322,8 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="GITIM.html">GITIM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WillardChandler.html">WillardChandler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChaconTarazona.html">ChaconTarazona</a></li>
 <li class="toctree-l1"><a class="reference internal" href="observables.html">Observables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datafiles.html">Datafiles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
