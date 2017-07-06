@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GITIM &#8212; Pytim 0.2.0 documentation</title>
+    <title>GITIM &#8212; Pytim 0.5.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="ITIM.html" title="ITIM"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,7 +61,7 @@
 <h2>Module: gtim<a class="headerlink" href="#module-gtim" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.gitim.GITIM">
-<em class="property">class </em><code class="descclassname">pytim.gitim.</code><code class="descname">GITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>symmetry='spherical'</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.gitim.</code><code class="descname">GITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>symmetry='spherical'</em>, <em>normal='guess'</em>, <em>group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em>, <em>centered=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.gitim.GITIM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies interfacial molecules at macroscopically flat interfaces.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -70,8 +70,8 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>universe</strong> (<em>Universe</em>) &#8211; the MDAnalysis universe</li>
 <li><strong>alpha</strong> (<em>float</em>) &#8211; the probe sphere radius</li>
-<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules                                       from this group</li>
-<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of                                       the elements in the itim_group.
+<li><strong>group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules                                       from this group</li>
+<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of                                       the elements in the group.
 If None is supplied, the default one                                       (from GROMOS 43a1) will be used.</li>
 <li><strong>max_layers</strong> (<em>int</em>) &#8211; the number of layers to be identified</li>
 <li><strong>info</strong> (<em>bool</em>) &#8211; print additional info</li>
@@ -90,7 +90,7 @@ If None is supplied, the default one                                       (from
 <span class="gp">&gt;&gt;&gt; </span><span class="n">g</span>       <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s1">&#39;resname DPC&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span><span class="o">=</span><span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span><span class="n">pytim</span><span class="o">.</span><span class="n">GITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">itim_group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                <span class="n">symmetry</span><span class="o">=</span><span class="s1">&#39;spherical&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span><span class="n">pytim</span><span class="o">.</span><span class="n">GITIM</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                <span class="n">symmetry</span><span class="o">=</span><span class="s1">&#39;spherical&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;gitim.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
@@ -305,12 +305,12 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
         <li class="right" >
           <a href="ITIM.html" title="ITIM"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

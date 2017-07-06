@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>WillardChandler &#8212; Pytim 0.2.0 documentation</title>
+    <title>WillardChandler &#8212; Pytim 0.5.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="GITIM.html" title="GITIM"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,7 +61,7 @@
 <h2>Module: willard-chandler<a class="headerlink" href="#module-willard-chandler" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.willard_chandler.WillardChandler">
-<em class="property">class </em><code class="descclassname">pytim.willard_chandler.</code><code class="descname">WillardChandler</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>mesh=2.0</em>, <em>symmetry='spherical'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>extra_cluster_groups=None</em>, <em>output_format=None</em>, <em>output_surf=True</em>, <em>output_part=True</em>, <em>output_dens=True</em>, <em>basename=None</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.willard_chandler.</code><code class="descname">WillardChandler</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>mesh=2.0</em>, <em>symmetry='spherical'</em>, <em>group=None</em>, <em>radii_dict=None</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>extra_cluster_groups=None</em>, <em>centered=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Identifies the dividing surface using the Willard-Chandler method</dt>
 <dd>(A. P. Willard and D. Chandler, J. Phys. Chem. B 2010, 114, 1954–1958)</dd>
@@ -74,16 +74,8 @@
 <li><strong>universe</strong> (<em>Universe</em>) &#8211; the MDAnalysis universe</li>
 <li><strong>mesh</strong> (<em>float</em>) &#8211; the grid spacing for the density calculation</li>
 <li><strong>alpha</strong> (<em>float</em>) &#8211; the width of the Gaussian kernel</li>
-<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; compute the density using this group</li>
-<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                              elements in the itim_group. If None is                              supplied, the default one (from MDAnalysis)                              will be used.</li>
-<li><strong>basename</strong> (<em>str</em>) &#8211; if not None, prepend it to the output files
-with volumetric, surface or particle data                              as  &lt;basename&gt;_&lt;type&gt;.&lt;n&gt;.extension,                              where &lt;n&gt; is the frame number.</li>
-<li><strong>output_format</strong> (<em>str</em>) &#8211; &#8216;vtk&#8217;, &#8216;cube&#8217;, or None</li>
-<li><strong>output_part</strong> (<em>bool</em>) &#8211; if True and output_format is &#8216;vtk&#8217;, save the                               particles (along with radii and color scheme                               for the atomtypes using POLYDATA.                              Disregarded otherwise.</li>
-<li><strong>output_dens</strong> (<em>bool</em>) &#8211; if True and output_format is &#8216;vtk&#8217; save the
-volumetric density data using STRUCTURED_POINTS                              Disregarded otherwise.</li>
-<li><strong>output_surf</strong> (<em>bool</em>) &#8211; if True and output_format is &#8216;vtk&#8217; save the
-surface triangulation data using UNSTRUCTURED_GRID                              Disregarded otherwise.</li>
+<li><strong>group</strong> (<em>AtomGroup</em>) &#8211; compute the density using this group</li>
+<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                              elements in the group. If None is                              supplied, the default one (from MDAnalysis)                              will be used.</li>
 </ul>
 </td>
 </tr>
@@ -99,7 +91,7 @@ surface triangulation data using UNSTRUCTURED_GRID                              
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">radii</span> <span class="o">=</span> <span class="n">pytim_data</span><span class="o">.</span><span class="n">vdwradii</span><span class="p">(</span><span class="n">G43A1_TOP</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">WillardChandler</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">itim_group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>                                          <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;vtk&#39;</span><span class="p">,</span>                                          <span class="n">output_dens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                                          <span class="n">output_part</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                                          <span class="n">output_surf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">WillardChandler</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">R</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">fit_sphere</span><span class="p">(</span>                       <span class="n">interface</span><span class="o">.</span><span class="n">triangulated_surface</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="s2">&quot;Radius=</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
 <span class="go">Radius=19.325</span>
@@ -121,27 +113,6 @@ surface triangulation data using UNSTRUCTURED_GRID                              
 <dt id="pytim.willard_chandler.WillardChandler.cluster_threshold_density">
 <code class="descname">cluster_threshold_density</code><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.cluster_threshold_density" title="Permalink to this definition">¶</a></dt>
 <dd><p>(float) threshold for the density-based filtering</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytim.willard_chandler.WillardChandler.dump_density">
-<code class="descname">dump_density</code><span class="sig-paren">(</span><em>densmap</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.dump_density" title="Permalink to this definition">¶</a></dt>
-<dd><p>save the density on a vtk file named consecutively using the frame
-number.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytim.willard_chandler.WillardChandler.dump_group">
-<code class="descname">dump_group</code><span class="sig-paren">(</span><em>group</em>, <em>groupfilename</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.dump_group" title="Permalink to this definition">¶</a></dt>
-<dd><p>save the particles n a vtk file named consecutively using the frame
-number.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytim.willard_chandler.WillardChandler.dump_triangulation">
-<code class="descname">dump_triangulation</code><span class="sig-paren">(</span><em>vertices</em>, <em>triangles</em>, <em>normals=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.dump_triangulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>save a triangulation on a vtk file named consecutively using the
-frame number.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -202,6 +173,26 @@ frame number.</p>
 <dt id="pytim.willard_chandler.WillardChandler.surfaces">
 <code class="descname">surfaces</code><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.surfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Surfaces associated to the interface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytim.willard_chandler.WillardChandler.writecube">
+<code class="descname">writecube</code><span class="sig-paren">(</span><em>filename='pytim.cube'</em>, <em>group=None</em>, <em>sequence=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.writecube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to cube files (sequences) the volumentric density and the atomic positions.
+:param str filename: the file name
+:param bool sequence: if true writes a sequence of files adding the frame to the filename
+&gt;&gt;&gt; interface.writecube(&#8216;dens.cube&#8217;) # writes on dens.cube
+&gt;&gt;&gt; interface.writecube(&#8216;dens.cube&#8217;,sequence=True) # writes on dens.&lt;frame&gt;.cube</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytim.willard_chandler.WillardChandler.writeobj">
+<code class="descname">writeobj</code><span class="sig-paren">(</span><em>filename='pytim.obj'</em>, <em>sequence=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.willard_chandler.WillardChandler.writeobj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to wavefront obj files (sequences) the triangulated surface
+:param str filename: the file name
+:param bool sequence: if true writes a sequence of files adding the frame to the filename
+&gt;&gt;&gt; interface.writeobj(&#8216;surf.obj&#8217;) # writes on surf.obj
+&gt;&gt;&gt; interface.writeobj(&#8216;surf.obj&#8217;,sequence=True) # writes on surf.&lt;frame&gt;.obj</p>
 </dd></dl>
 
 <dl class="method">
@@ -333,12 +324,12 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
         <li class="right" >
           <a href="GITIM.html" title="GITIM"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

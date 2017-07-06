@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ChaconTarazona &#8212; Pytim 0.2.0 documentation</title>
+    <title>ChaconTarazona &#8212; Pytim 0.5.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="WillardChandler.html" title="WillardChandler"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,7 +61,7 @@
 <h2>Module: chacon_tarazona<a class="headerlink" href="#module-chacon-tarazona" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.chacon_tarazona.ChaconTarazona">
-<em class="property">class </em><code class="descclassname">pytim.chacon_tarazona.</code><code class="descname">ChaconTarazona</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>tau=1.5</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>normal='guess'</em>, <em>molecular=True</em>, <em>info=True</em>, <em>mesh=None</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.chacon_tarazona.</code><code class="descname">ChaconTarazona</code><span class="sig-paren">(</span><em>universe</em>, <em>alpha=2.0</em>, <em>tau=1.5</em>, <em>group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>normal='guess'</em>, <em>molecular=True</em>, <em>info=True</em>, <em>mesh=None</em>, <em>centered=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.chacon_tarazona.ChaconTarazona" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Identifies the dividing surface using the Chacon-Tarazona method</dt>
 <dd>(Chacón, E., and P. Tarazona. Phys. Rev. Lett. 91, 166103,2003)
@@ -76,8 +76,8 @@
 <li><strong>alpha</strong> (<em>float</em>) &#8211; molecular scale cutoff</li>
 <li><strong>tau</strong> (<em>float</em>) &#8211; particles within this distance form the                              surface will be added durin the                              self-consistent procedure.</li>
 <li><strong>molecular</strong> (<em>bool</em>) &#8211; Switches between search of interfacial                              molecules / atoms (default: True)</li>
-<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; compute the density using this group</li>
-<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                              elements in the itim_group. If None is                              supplied, the default one (from MDAnalysis)                              will be used.</li>
+<li><strong>group</strong> (<em>AtomGroup</em>) &#8211; compute the density using this group</li>
+<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                              elements in the group. If None is                              supplied, the default one (from MDAnalysis)                              will be used.</li>
 </ul>
 </td>
 </tr>
@@ -90,7 +90,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytim.datafiles</span> <span class="k">import</span> <span class="n">WATER_GRO</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mda</span><span class="o">.</span><span class="n">Universe</span><span class="p">(</span><span class="n">WATER_GRO</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s1">&#39;name OW&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ChaconTarazona</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span><span class="n">itim_group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span> <span class="o">=</span> <span class="n">pytim</span><span class="o">.</span><span class="n">ChaconTarazona</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span><span class="n">tau</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span><span class="n">group</span><span class="o">=</span><span class="n">g</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">molecular</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">writepdb</span><span class="p">(</span><span class="s1">&#39;CT.pdb&#39;</span><span class="p">,</span><span class="n">centered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">)</span>
 <span class="go">array([[&lt;AtomGroup with 175 atoms&gt;],</span>
@@ -298,12 +298,12 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
         <li class="right" >
           <a href="WillardChandler.html" title="WillardChandler"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

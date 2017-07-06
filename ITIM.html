@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ITIM &#8212; Pytim 0.2.0 documentation</title>
+    <title>ITIM &#8212; Pytim 0.5.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.0',
+        VERSION:     '0.5.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="guessing_radii.html" title="Topologies without atomi radii"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,7 +61,7 @@
 <h2>Module: itim<a class="headerlink" href="#module-itim" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pytim.itim.ITIM">
-<em class="property">class </em><code class="descclassname">pytim.itim.</code><code class="descname">ITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>mesh=0.4</em>, <em>alpha=2.0</em>, <em>normal='guess'</em>, <em>itim_group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em>, <em>center=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pytim.itim.</code><code class="descname">ITIM</code><span class="sig-paren">(</span><em>universe</em>, <em>mesh=0.4</em>, <em>alpha=2.0</em>, <em>normal='guess'</em>, <em>group=None</em>, <em>radii_dict=None</em>, <em>max_layers=1</em>, <em>cluster_cut=None</em>, <em>cluster_threshold_density=None</em>, <em>molecular=True</em>, <em>extra_cluster_groups=None</em>, <em>info=False</em>, <em>multiproc=True</em>, <em>centered=False</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytim.itim.ITIM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies interfacial molecules at macroscopically flat interfaces.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -72,8 +72,8 @@
 <li><strong>mesh</strong> (<em>float</em>) &#8211; the grid spacing used for the testlines</li>
 <li><strong>alpha</strong> (<em>float</em>) &#8211; the probe sphere radius</li>
 <li><strong>normal</strong> (<em>str</em>) &#8211; the macroscopic interface normal direction                                  &#8216;x&#8217;,&#8217;y&#8217; or &#8216;z&#8217; (by default is &#8216;guess&#8217;)</li>
-<li><strong>itim_group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules from                                     this group</li>
-<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                                  elements in the itim_group. If None is                                  supplied, the default one (from MDAnalysis)                                  will be used.</li>
+<li><strong>group</strong> (<em>AtomGroup</em>) &#8211; identify the interfacial molecules from                                     this group</li>
+<li><strong>radii_dict</strong> (<em>dict</em>) &#8211; dictionary with the atomic radii of the                                  elements in the group. If None is                                  supplied, the default one (from MDAnalysis)                                  will be used.</li>
 <li><strong>max_layers</strong> (<em>int</em>) &#8211; the number of layers to be identified</li>
 <li><strong>cluster_cut</strong> (<em>float</em>) &#8211; cutoff used for neighbors or density-based                                  cluster search (default: None disables the                                  cluster analysis)</li>
 <li><strong>cluster_threshold_density</strong> (<em>float</em>) &#8211; Number density threshold for                                  the density-based cluster search. &#8216;auto&#8217;                                  determines the threshold automatically.                                  Default: None uses simple neighbors cluster                                  search, if cluster_cut is not None</li>
@@ -99,18 +99,18 @@
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># atoms in the layers can be accesses either through</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># the layers array:</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">interface</span><span class="o">.</span><span class="n">layers</span>
-<span class="go">[[&lt;AtomGroup with 777 atoms&gt; &lt;AtomGroup with 693 atoms&gt;</span>
+<span class="go">[[&lt;AtomGroup with 780 atoms&gt; &lt;AtomGroup with 690 atoms&gt;</span>
 <span class="go">  &lt;AtomGroup with 693 atoms&gt; &lt;AtomGroup with 660 atoms&gt;]</span>
-<span class="go"> [&lt;AtomGroup with 777 atoms&gt; &lt;AtomGroup with 690 atoms&gt;</span>
-<span class="go">  &lt;AtomGroup with 660 atoms&gt; &lt;AtomGroup with 654 atoms&gt;]]</span>
+<span class="go"> [&lt;AtomGroup with 777 atoms&gt; &lt;AtomGroup with 687 atoms&gt;</span>
+<span class="go">  &lt;AtomGroup with 663 atoms&gt; &lt;AtomGroup with 654 atoms&gt;]]</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># upper side, first layer</span>
-<span class="go">&lt;AtomGroup with 777 atoms&gt;</span>
+<span class="go">&lt;AtomGroup with 780 atoms&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># lower side, third layer</span>
-<span class="go">&lt;AtomGroup with 660 atoms&gt;</span>
+<span class="go">&lt;AtomGroup with 663 atoms&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># or as a whole AtomGroup. This can include all atoms in all layers:</span>
@@ -120,11 +120,13 @@
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># or a selection of them, using slicing:</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
-<span class="go">&lt;AtomGroup with 1437 atoms&gt;</span>
+<span class="go">&lt;AtomGroup with 1440 atoms&gt;</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># all layers in the upper side</span>
 <span class="go">&lt;AtomGroup with 2823 atoms&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># upper side, second layer</span>
+<span class="go">&lt;AtomGroup with 690 atoms&gt;</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the whole system can be quickly saved to a pdb file</span>
@@ -139,7 +141,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># but the centering options are not available. Writing to other formats that</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># do not support the beta factor will loose the information on the layers.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_layers.pdb&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">:]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_uppeer_side.pdb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_uppeer_side.pdb&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">in_layers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;only_second_layers.pdb&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -185,7 +187,7 @@
 <dd><p>Access the layers as numpy arrays of AtomGroups.</p>
 <p>The object can be sliced as usual with numpy arrays, so, for example:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>  <span class="c1"># upper side (0), all layers</span>
-<span class="go">array([&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 693 atoms&gt;,</span>
+<span class="go">array([&lt;AtomGroup with 780 atoms&gt;, &lt;AtomGroup with 690 atoms&gt;,</span>
 <span class="go">       &lt;AtomGroup with 693 atoms&gt;, &lt;AtomGroup with 660 atoms&gt;], dtype=object)</span>
 </pre></div>
 </div>
@@ -194,14 +196,14 @@
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># 1st - 3rd layer (0:3), on both sides</span>
-<span class="go">array([[&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 693 atoms&gt;,</span>
+<span class="go">array([[&lt;AtomGroup with 780 atoms&gt;, &lt;AtomGroup with 690 atoms&gt;,</span>
 <span class="go">        &lt;AtomGroup with 693 atoms&gt;],</span>
-<span class="go">       [&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 690 atoms&gt;,</span>
-<span class="go">        &lt;AtomGroup with 660 atoms&gt;]], dtype=object)</span>
+<span class="go">       [&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 687 atoms&gt;,</span>
+<span class="go">        &lt;AtomGroup with 663 atoms&gt;]], dtype=object)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">interface</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># side 1, layers 1-4 &amp; stride 2 (0:4:2)</span>
-<span class="go">array([&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 660 atoms&gt;], dtype=object)</span>
+<span class="go">array([&lt;AtomGroup with 777 atoms&gt;, &lt;AtomGroup with 663 atoms&gt;], dtype=object)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -371,12 +373,12 @@ The :multiframe: option set to :False: will overwrite the file.</dd>
         <li class="right" >
           <a href="guessing_radii.html" title="Topologies without atomi radii"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.2.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Pytim 0.5.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Marcello Sega.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
